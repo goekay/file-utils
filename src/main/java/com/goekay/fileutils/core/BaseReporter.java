@@ -52,7 +52,7 @@ public class BaseReporter implements Reporter {
         print(String.format(HEADER_TEMPLATE, type.getReportTitle(), rh.getRootPath(), rh.getMeta().size()));
 
         for (FileMetaData f : rh.getMeta()) {
-            print(f.getRelativeName(rh.getRootPath()));
+            print(f.getRelativeName());
         }
     }
 }

@@ -1,8 +1,7 @@
 package com.goekay.fileutils.core;
 
 import lombok.EqualsAndHashCode;
-
-import java.nio.file.Path;
+import lombok.Getter;
 
 /**
  * @author Sevket Goekay <goekay@dbis.rwth-aachen.de>
@@ -10,33 +9,24 @@ import java.nio.file.Path;
  */
 @EqualsAndHashCode
 public class FileMetaData implements Comparable<FileMetaData> {
-    private final Path name;
+    @Getter private final String relativeName;
     private long size;
     private long lastModified;
 
-    public FileMetaData(Path name) {
-        this.name = name;
+    public FileMetaData(String relativeName) {
+        this.relativeName = relativeName;
     }
 
-    public FileMetaData(Path name, long size, long lastModified) {
-        this.name = name;
+    public FileMetaData(String relativeName, long size, long lastModified) {
+        this.relativeName = relativeName;
         this.size = size;
         this.lastModified = lastModified;
-    }
-
-    public String getRelativeName(Path root) {
-        // Get the relative-to-root path to print
-        return root.relativize(root.resolve(name)).toString();
-    }
-
-    public Path getName() {
-        return this.name;
     }
 
     /**
      * Is used to sort the result list by name
      */
     public int compareTo(FileMetaData o) {
-        return name.compareTo(o.getName());
+        return relativeName.compareTo(o.getRelativeName());
     }
 }

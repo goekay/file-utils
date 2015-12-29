@@ -18,7 +18,7 @@ public class DiffDirectoryVisitor extends BaseVisitor {
 
     @Override
     public void storeMetaData(Path file, BasicFileAttributes attrs) {
-        FileMetaData d = new FileMetaData(file, attrs.size(), attrs.lastModifiedTime().toMillis());
+        FileMetaData d = new FileMetaData(calcRelativeName(file), attrs.size(), attrs.lastModifiedTime().toMillis());
         fileMetaDataList.add(d);
     }
 }

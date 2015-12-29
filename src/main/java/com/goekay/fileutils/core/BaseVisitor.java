@@ -38,5 +38,10 @@ public abstract class BaseVisitor extends SimpleFileVisitor<Path> {
         return this.fileMetaDataList;
     }
 
+    public String calcRelativeName(Path name) {
+        // Get the relative-to-root path
+        return root.relativize(root.resolve(name)).toString();
+    }
+
     public abstract void storeMetaData(Path file, BasicFileAttributes attrs);
 }

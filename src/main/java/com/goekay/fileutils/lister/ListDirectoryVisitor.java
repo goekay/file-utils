@@ -18,7 +18,7 @@ public class ListDirectoryVisitor extends BaseVisitor {
 
     @Override
     public void storeMetaData(Path file, BasicFileAttributes attrs) {
-        FileMetaData d = new FileMetaData(file);
+        FileMetaData d = new FileMetaData(calcRelativeName(file));
         fileMetaDataList.add(d);
     }
 }
