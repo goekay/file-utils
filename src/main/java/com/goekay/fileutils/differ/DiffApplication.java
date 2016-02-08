@@ -3,6 +3,7 @@ package com.goekay.fileutils.differ;
 import com.goekay.fileutils.CommandLineParams;
 import com.goekay.fileutils.core.BaseApplication;
 import com.goekay.fileutils.core.FileMetaData;
+import com.goekay.fileutils.core.IgnoreFileReader;
 import com.goekay.fileutils.core.Reporter;
 import lombok.RequiredArgsConstructor;
 
@@ -50,7 +51,8 @@ public class DiffApplication extends BaseApplication {
     }
 
     private List<FileMetaData> walkInternal(Path p) {
-        DiffDirectoryVisitor v = new DiffDirectoryVisitor(p);
+        IgnoreFileReader ignoreFileReader = new IgnoreFileReader();
+        DiffDirectoryVisitor v = new DiffDirectoryVisitor(p, ignoreFileReader);
         walk(p, v);
         return v.getMetaDataList();
     }

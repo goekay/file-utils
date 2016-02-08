@@ -1,0 +1,8 @@
+# ignorefile is similar to .gitignore
+#
+# Each line is a regex telling the application that
+# the file names matching the pattern should be ignored.
+#
+
+(\._).+
+.DS_Store

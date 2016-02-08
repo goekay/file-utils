@@ -2,6 +2,7 @@ package com.goekay.fileutils.lister;
 
 import com.goekay.fileutils.CommandLineParams;
 import com.goekay.fileutils.core.BaseApplication;
+import com.goekay.fileutils.core.IgnoreFileReader;
 import com.goekay.fileutils.core.PathValidator;
 import com.goekay.fileutils.core.Reporter;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,11 @@ public class ListApplication extends BaseApplication {
     @Override
     public void start() {
         reporter = initReporter(params);
+        IgnoreFileReader ignoreFileReader = new IgnoreFileReader();
 
         // TODO: Might benefit from parallelStream()
         for (Path p : getUnique(params)) {
-            ListDirectoryVisitor v = new ListDirectoryVisitor(p);
+            ListDirectoryVisitor v = new ListDirectoryVisitor(p, ignoreFileReader);
             walk(p, v);
             reporter.prepare(p, v.getMetaDataList());
         }
