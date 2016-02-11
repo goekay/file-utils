@@ -1,6 +1,8 @@
 package com.goekay.fileutils.core;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -22,21 +24,25 @@ public class IgnoreFileReader {
 
     public IgnoreFileReader() {
         try {
-            URL url = this.getClass().getClassLoader().getResource(IGNORE_FILE);
-
-            if (url == null) {
-                throw new FileNotFoundException("Could not load the file '" + IGNORE_FILE + "'");
-            }
-
-            ignorePatterns = Files.lines(Paths.get(url.toURI()), StandardCharsets.UTF_8)
-                                  .map(String::trim)
-                                  .filter(this::isValidPattern)
-                                  .distinct()
-                                  .map(Pattern::compile)
-                                  .collect(Collectors.toList());
-        } catch (Exception e) {
+            ignorePatterns = loadIgnorePatterns();
+        } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private List<Pattern> loadIgnorePatterns() throws IOException, URISyntaxException {
+        URL url = this.getClass().getClassLoader().getResource(IGNORE_FILE);
+
+        if (url == null) {
+            throw new FileNotFoundException("Could not load the file '" + IGNORE_FILE + "'");
+        }
+
+        return Files.lines(Paths.get(url.toURI()), StandardCharsets.UTF_8)
+                    .map(String::trim)
+                    .filter(this::isValidPattern)
+                    .distinct()
+                    .map(Pattern::compile)
+                    .collect(Collectors.toList());
     }
 
     private boolean isValidPattern(String line) {
