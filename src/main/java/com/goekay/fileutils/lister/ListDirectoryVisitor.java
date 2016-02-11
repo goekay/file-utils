@@ -21,8 +21,8 @@ public class ListDirectoryVisitor extends BaseVisitor {
 
     @Override
     public void storeMetaData(Path file, BasicFileAttributes attrs) {
-        String name = file.getFileName().toString();
-        if (ignoreFileReader.isOK(name)) {
+        Path fileName = file.getFileName();
+        if (fileName != null && ignoreFileReader.isOK(fileName.toString())) {
             FileMetaData d = new FileMetaData(calcRelativeName(file));
             fileMetaDataList.add(d);
         }
